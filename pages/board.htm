@@ -1,0 +1,59 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="../docs/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+        <link href="../docs/bootstrap/css/ripples.min.css" rel="stylesheet">
+        <link href="../docs/bootstrap/css/material-wfont.min.css" rel="stylesheet">
+
+</head>
+</head>
+<body>
+
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <h3 class="panel-title">***公司年会在线投票系统</h3>
+    </div>
+	<div class="panel-body" id="actors" >
+	</div>
+
+</div>
+    <script src="../docs/bootstrap/js/jquery.min.js"></script>
+        <script src="../docs/bootstrap/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="../docs/kendor/js/kendo.core.min.js"></script>
+
+        <script src="../docs/bootstrap/js/ripples.min.js"></script>
+        <script src="../docs/bootstrap/js/material.min.js"></script>
+<h3 >#:data.id#号   #:data.name#   得票：#:data.vote#</h3>
+			<img src="#:data.picture#"/>
+			<h4>#=data.desp#</h4>
+  <script type="text/x-kendo-tmpl" id="template">
+		<div class="col-lg-12">
+
+		</div>
+</script>
+
+
+<script>
+	 $(function() {
+		$.material.init();
+		$.post('/getActorBoard','', function(data){
+			for (var i in data)
+			{
+				var d=data[i];
+				var template = kendo.template($("#template").html());
+				var html = template(d); 
+				$("#actors").append(html);
+			}
+		});
+	});
+
+
+</script>
+
+</body>
+</html>

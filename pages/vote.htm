@@ -1,0 +1,112 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="../docs/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+        <link href="../docs/bootstrap/css/ripples.min.css" rel="stylesheet">
+        <link href="../docs/bootstrap/css/material-wfont.min.css" rel="stylesheet">
+
+</head>
+</head>
+<body>
+
+
+<div class="panel panel-primary ">
+    <div class="panel-heading">
+        <h3 class="panel-title">***公司年会在线投票系统</h3>
+    </div>
+	<div class="panel-body container">
+		<h4 id="hello"></h4>
+		<div  id="actors">
+		</div>
+		
+	</div>
+	<div class="panel-footer">
+			<button type="button" class="btn btn-primary" onclick="vote()">投票</button>
+	</div>
+
+</div>
+    <script src="../docs/bootstrap/js/jquery.min.js"></script>
+        <script src="../docs/bootstrap/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="../docs/kendor/js/kendo.core.min.js"></script>
+
+        <script src="../docs/bootstrap/js/ripples.min.js"></script>
+        <script src="../docs/bootstrap/js/material.min.js"></script>
+
+  <script type="text/x-kendo-tmpl" id="template">
+		<td valign="top">
+ 			<h4 >#:data.id#号   #:data.name#</h4>
+			<label>投TA一票<input type="checkbox" name="vote" id="#:data.id#"></label><br>
+			<img src="#:data.picture#" height="100px" width="100px"/>
+			<br><div><h4>演唱曲目：#=data.desp#</h4></div>
+			<br>
+		</td>
+</script>
+
+
+<script>
+	
+		function vote(){
+			var ids="";
+			var i=0;
+			$("input[name='vote']:checked").each(function(){
+				ids+=$(this).attr("id")+",";
+				i++;
+			});
+			if (ids=="")
+			{
+				alert("请选择您要投票的选手");
+				return;
+			}
+			if (i>3)
+			{
+				alert("投票不能超过3人");
+				return;
+			}
+			//alert(ids);
+			$.post('/vote',"ids="+ids, function(data){
+				if(data==""){
+					window.location="board.htm";
+					return;
+				}
+				alert(data);
+			});
+		}
+
+		 $(function() {
+			$.material.init();
+			$.post('/getUserInfo','', function(data){
+				for (var i in data)
+				{
+					var d=data[i];
+					var s="欢迎您："+d["dept"]+"-"+d["user_name"]
+					$("#hello").html(s)
+				}
+			});
+			$.post('/getActors','', function(data){
+				var html = ""; 
+				for (var g=1;g<4 ;g++ )
+				{
+					for (var i in data)
+					{
+						var d=data[i];
+						if (d["flag"]!=g) continue;
+						var template = kendo.template($("#template").html());
+						html += template(d); 
+					}
+					html="<tr class='xq_ul' >"+html+"</tr>";
+				}
+				html="<table>"+html+"</table>";
+				$("#actors").append(html);
+			});
+		});
+
+
+	</script>
+
+</body>
+</html>

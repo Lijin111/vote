@@ -1,0 +1,68 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="../docs/bootstrap/js/jquery.min.js"></script>
+        <link href="../docs/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+        <link href="../docs/bootstrap/css/ripples.min.css" rel="stylesheet">
+        <link href="../docs/bootstrap/css/material-wfont.min.css" rel="stylesheet">
+        <script src="../docs/bootstrap/js/bootstrap.min.js"></script>
+
+        <script src="../docs/bootstrap/js/ripples.min.js"></script>
+        <script src="../docs/bootstrap/js/material.min.js"></script>
+
+</head>
+</head>
+<body>
+
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <h3 class="panel-title">***公司年会在线投票系统</h3>
+    </div>
+	<div class="panel-body" >
+	<form id="tickets" class="form-horizontal">
+		<fieldset>
+			<legend>请输入您的验证码</legend>
+				<div class="col-lg-4">
+                    <input type="text" id="code" name="code" placeholder="验证码"  />
+				</div>
+			</div>
+
+		</fieldset>
+	</form></div>
+	</div>
+	<div class="panel-footer">
+			<button type="button" class="btn btn-primary" onclick="login()">确定</button>
+	</div>
+
+</div>
+
+
+	<script>
+		var baseUrl="";
+
+
+		 function login() {
+				$.post(baseUrl+'/check_login','code='+$('#code').val(), function(data){
+					if (data==''){
+						window.location="vote.htm";
+					}else{
+						alert(data);
+					};
+				});
+		}
+
+
+		 $(function() {
+			$.material.init();
+		});
+
+
+	</script>
+
+</body>
+</html>
